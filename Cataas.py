@@ -4,7 +4,7 @@ import requests  # Библиотека для отправки запросов
 from io import BytesIO  # Библиотека ввода-вывода информации. Здесь в двоичном коде.
 
 
-def load_image():
+def load_image(url):
     try:
         # Отправляем GET-запрос с использованием requests.get()
         response = requests.get(url)
@@ -20,19 +20,28 @@ def load_image():
         print(f"Ошибка при загрузке изображения: {e}")
         return None
 
+def set_image():
+    img = load_image(url)  # загрузка картинки с url
+
+    if img:
+        # Устанавливаем изображение в метку
+        label.config(image=img)
+        # Необходимо сохранить ссылку на изображение, чтобы избежать сборки мусора
+        label.image = img
 
 window = Tk()
 window.title('Cats')
 window.geometry('600x480')
 
+# Создаем метку без изображения
 label = Label()
 label.pack()
 
-url = 'https://cataas.com/cat'
-img = load_image(url)  # загрузка картинки с url
+update_button = Button(text='Обновить', command=set_image)
+update_button.pack()
 
-if img:
-    label.config(image=img)
-    label.image = img  # Для того чтобы картинка случайно не удалилась.
+url = 'https://cataas.com/cat'
+
+set_image()
 
 window.mainloop()
