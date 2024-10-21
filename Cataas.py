@@ -1,7 +1,12 @@
 from tkinter import *
+from tkinter import ttk
 from PIL import Image, ImageTk
 import requests  # Библиотека для отправки запросов
 from io import BytesIO  # Библиотека ввода-вывода информации. Здесь в двоичном коде.
+
+
+# Список доступных тегов
+ALLOWED_TAGS = ['sleep', 'jump', 'cute', 'fight', 'black', 'white', 'red', 'siamese', 'bengal']
 
 
 def load_image(url):
@@ -24,7 +29,7 @@ def load_image(url):
         return None
 
 def open_new_window():
-    tag = tag_entry.get()
+    tag = tag_combobox.get()
     url_tag = f'https://cataas.com/cat/{tag}' if tag else 'https://cataas.com/cat'
     img = load_image(url_tag)  # загрузка картинки с url
 
@@ -48,13 +53,8 @@ window = Tk()
 window.title('Cats')
 window.geometry('600x520')
 
-tag_entry = Entry()
-tag_entry.pack()
-
-load_button = Button(text='Загрузить по тегу', command=open_new_window)
-load_button.pack()
-
-
+# tag_entry = Entry()
+# tag_entry.pack()
 
 # Создаем меню
 menu_bar = Menu(window)
@@ -68,5 +68,14 @@ file_menu.add_separator()
 file_menu.add_command(label="Выход", command=exit)
 
 url = 'https://cataas.com/cat'
+
+tag_label = Label(text='Выбери тег')
+tag_label.pack()
+
+tag_combobox = ttk.Combobox(values=ALLOWED_TAGS)  # Выпадающий список
+tag_combobox.pack()
+
+load_button = Button(text='Загрузить по тегу', command=open_new_window)
+load_button.pack()
 
 window.mainloop()
