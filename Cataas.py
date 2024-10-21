@@ -14,6 +14,9 @@ def load_image(url):
         image_data = BytesIO(response.content)
         # Открываем изображение с помощью PIL
         img = Image.open(image_data)
+        # Изменяем размер изображения, подгоняя под размер окна
+        img.thumbnail((600, 520), Image.Resampling.LANCZOS)  # Способ конвертации
+
         #  Возвращает изображение, которое вставится в метку
         return ImageTk.PhotoImage(img)
     except Exception as e:
@@ -31,7 +34,7 @@ def set_image():
 
 window = Tk()
 window.title('Cats')
-window.geometry('600x480')
+window.geometry('600x520')
 
 # Создаем метку без изображения
 label = Label()
